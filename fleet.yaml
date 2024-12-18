@@ -1,14 +1,3 @@
-# defaultNamespace: cattle-neuvector-system
-
-# helm:
-#   releaseName: neuvector-crd
-#   chart: crd
-#   repo: https://neuvector.github.io/neuvector-helm/
-#   version: 2.8.3
-#   # valuesFiles:
-#   #   - values-neuvector-crd.yaml
-
-# ---
 defaultNamespace: cattle-neuvector-system
 
 helm:
@@ -18,4 +7,9 @@ helm:
   version: 2.8.3
   values:
     runtimePath: /run/k3s/containerd/containerd.sock
-  #   - values-neuvector.yaml
+    global:
+      cattle:
+        url: https://rancher.vzxy.net
+    controller:
+      ranchersso:
+        enabled: true
