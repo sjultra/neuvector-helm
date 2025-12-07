@@ -1,0 +1,12 @@
+# Values for daily scan configuration
+scan:
+  enabled: true
+  frequency: "daily"
+  schedule:
+    daily: "0 2 * * *"    # Daily at 2 AM UTC
+
+registryScan:
+  enabled: true
+  scanLayers: true
+  scanSecrets: true
+

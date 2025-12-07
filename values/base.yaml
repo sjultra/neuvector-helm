@@ -1,0 +1,35 @@
+# Base values for NeuVector
+# This file contains common configuration shared across all environments
+# Environment-specific overrides are in values/env-*.yaml files
+
+# Global configuration
+global:
+  # Kubernetes namespace
+  namespace: cattle-neuvector-system
+  
+  # Container runtime path (k3s default)
+  runtime:
+    path: /run/k3s/containerd/containerd.sock
+
+# NeuVector core chart configuration
+neuvector:
+  enabled: true
+
+# NeuVector core chart values (dependency)
+neuvector-core:
+  runtimePath: ""  # Uses global.runtime.path if empty
+
+# Scan configuration
+scan:
+  enabled: true
+  frequency: "weekly"  # Options: "daily" or "weekly"
+  schedule:
+    daily: "0 2 * * *"    # Daily at 2 AM UTC
+    weekly: "0 2 * * 0"   # Weekly on Sunday at 2 AM UTC
+
+# Registry scanning configuration
+registryScan:
+  enabled: true
+  scanLayers: true
+  scanSecrets: true
+

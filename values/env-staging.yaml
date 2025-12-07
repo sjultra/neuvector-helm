@@ -1,0 +1,19 @@
+# Staging environment values
+# This file extends base.yaml with staging-specific settings
+
+global:
+  rancher:
+    # Set your staging Rancher URL here
+    url: ""  # e.g., "https://rancher-staging.example.com"
+
+neuvector-core:
+  global:
+    cattle:
+      url: ""  # Should match global.rancher.url above
+  controller:
+    ranchersso:
+      enabled: false  # Set to true if URL is provided
+
+scan:
+  frequency: "daily"  # Daily scans for staging
+

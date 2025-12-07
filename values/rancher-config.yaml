@@ -1,0 +1,24 @@
+# Rancher configuration values file
+# 
+# Usage:
+#   1. Set your Rancher URL below
+#   2. Reference this file in fleet.yaml or use with Helm:
+#      helm install -f values/rancher-config.yaml ./charts/neuvector
+#
+# Or in Fleet, you can reference this file or merge these values
+
+global:
+  # Set your Rancher server URL here
+  rancher:
+    url: "https://rancher.example.com"  # Replace with your Rancher URL
+
+# NeuVector core chart values
+# IMPORTANT: Set neuvector-core.global.cattle.url to match global.rancher.url
+neuvector-core:
+  global:
+    cattle:
+      url: "https://rancher.example.com"  # Should match global.rancher.url above
+  controller:
+    ranchersso:
+      enabled: true  # Enable Rancher SSO
+

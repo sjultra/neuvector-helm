@@ -1,0 +1,24 @@
+# Helm
+charts/*/charts/
+charts/*/requirements.lock
+*.tgz
+
+# Sensitive values files (uncomment if you store secrets in values files)
+# values/secrets.yaml
+# values/*-secrets.yaml
+
+# Local development
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Temporary files
+*.tmp
+*.log
+

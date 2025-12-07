@@ -1,0 +1,73 @@
+# Default values for neuvector
+# This is a wrapper chart that uses the upstream NeuVector chart
+
+# Global configuration for this wrapper chart
+global:
+  # Rancher server URL for SSO integration
+  # Set this to your Rancher server URL, e.g., https://rancher.example.com
+  # Leave empty to disable Rancher SSO
+  rancher:
+    url: ""
+  
+  # Kubernetes namespace for NeuVector deployment
+  namespace: cattle-neuvector-system
+  
+  # Container runtime path for k3s
+  # Default is for k3s, adjust for other runtimes if needed
+  # Options:
+  #   - k3s: /run/k3s/containerd/containerd.sock
+  #   - standard containerd: /run/containerd/containerd.sock
+  #   - docker: /var/run/docker.sock
+  runtime:
+    path: /run/k3s/containerd/containerd.sock
+
+neuvector:
+  enabled: true
+
+# NeuVector upstream chart values
+# These are passed to the core chart dependency (aliased as neuvector-core)
+# Values are nested under the dependency alias name
+#
+# NOTE: When setting global.rancher.url, you should also set neuvector-core.global.cattle.url
+# to the same value. Or use a values file that sets both (see values/rancher-config.yaml)
+neuvector-core:
+  # Runtime path - set this or it will use the default from global.runtime.path
+  # If both are empty, defaults to /run/k3s/containerd/containerd.sock
+  runtimePath: ""
+  global:
+    cattle:
+      # Rancher URL - should match global.rancher.url if using Rancher SSO
+      # Leave empty to disable Rancher SSO
+      url: ""
+  controller:
+    # Rancher SSO - set to true if rancher URL is provided
+    # Will be automatically enabled if url is set (via helper template)
+    ranchersso:
+      enabled: false
+
+# Scan configuration
+scan:
+  enabled: true
+  frequency: "weekly"  # Options: "daily" or "weekly"
+  schedule:
+    daily: "0 2 * * *"    # Daily at 2 AM
+    weekly: "0 2 * * 0"   # Weekly on Sunday at 2 AM
+  
+  # NeuVector API configuration
+  api:
+    # Service account for the scan config job
+    serviceAccount:
+      create: true
+      name: neuvector-scan-config
+    
+    # Retry configuration
+    retries: 3
+    retryDelay: 10s
+
+# Registry scanning configuration
+# This will be applied to all registries configured in NeuVector
+registryScan:
+  enabled: true
+  scanLayers: true
+  scanSecrets: true
+

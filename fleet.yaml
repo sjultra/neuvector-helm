@@ -1,15 +1,63 @@
+# Fleet configuration for NeuVector deployment
+# GitOps-friendly: Uses environment-specific values files via Fleet targeting
+#
+# This configuration uses Fleet's targeting feature to deploy different
+# configurations to different clusters based on labels.
+#
+# Structure:
+#   - values/base.yaml: Common configuration
+#   - values/env-*.yaml: Environment-specific overrides
+#   - Fleet targets: Reference appropriate values files per environment
+
 defaultNamespace: cattle-neuvector-system
 
 helm:
   releaseName: neuvector
-  chart: core
-  repo: https://neuvector.github.io/neuvector-helm/
-  version: 2.8.3
-  values:
-    runtimePath: /run/k3s/containerd/containerd.sock
-    global:
-      cattle:
-        url: https://rancher.vzxy.net
-    controller:
-      ranchersso:
-        enabled: true
+  chart: ./charts/neuvector
+  # Base values are in values/base.yaml
+  # Environment-specific values are applied via Fleet targets below
+
+# Fleet targeting: Deploy different configs to different clusters
+targets:
+  # Production clusters
+  - name: production
+    clusterSelector:
+      matchLabels:
+        env: production
+        # Add more labels as needed, e.g.:
+        # tier: prod
+    # Values files are merged in order (later files override earlier ones)
+    valuesFiles:
+      - values/base.yaml
+      - values/env-production.yaml
+    # You can also add inline values here if needed
+    # values:
+    #   global:
+    #     rancher:
+    #       url: "https://rancher.example.com"
+
+  # Staging clusters
+  - name: staging
+    clusterSelector:
+      matchLabels:
+        env: staging
+    valuesFiles:
+      - values/base.yaml
+      - values/env-staging.yaml
+
+  # Development clusters
+  - name: development
+    clusterSelector:
+      matchLabels:
+        env: development
+    valuesFiles:
+      - values/base.yaml
+      - values/env-development.yaml
+
+  # Default target for clusters without environment labels
+  # This can be removed if all clusters should have explicit environment labels
+  - name: default
+    clusterSelector: {}
+    valuesFiles:
+      - values/base.yaml
+      - values/env-development.yaml  # Default to dev config

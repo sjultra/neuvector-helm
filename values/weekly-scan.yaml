@@ -1,0 +1,12 @@
+# Values for weekly scan configuration
+scan:
+  enabled: true
+  frequency: "weekly"
+  schedule:
+    weekly: "0 2 * * 0"   # Weekly on Sunday at 2 AM UTC
+
+registryScan:
+  enabled: true
+  scanLayers: true
+  scanSecrets: true
+

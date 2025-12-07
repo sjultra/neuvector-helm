@@ -1,0 +1,19 @@
+# Production environment values
+# This file extends base.yaml with production-specific settings
+
+global:
+  rancher:
+    # Set your production Rancher URL here
+    url: ""  # e.g., "https://rancher.example.com"
+
+neuvector-core:
+  global:
+    cattle:
+      url: ""  # Should match global.rancher.url above
+  controller:
+    ranchersso:
+      enabled: false  # Set to true if URL is provided
+
+scan:
+  frequency: "daily"  # Daily scans for production
+

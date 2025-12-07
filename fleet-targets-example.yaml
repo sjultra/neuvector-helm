@@ -1,0 +1,48 @@
+# Example Fleet targets configuration
+# Uncomment and customize this section in fleet.yaml to deploy different
+# scan frequencies to different clusters based on labels
+
+targets:
+  # Production clusters - daily scans
+  - name: production
+    clusterSelector:
+      matchLabels:
+        env: production
+        tier: prod
+    values:
+      scan:
+        enabled: true
+        frequency: "daily"
+        schedule:
+          daily: "0 2 * * *"    # Daily at 2 AM UTC
+      neuvector-core:
+        # Production-specific NeuVector settings
+        controller:
+          replicas: 3
+
+  # Development clusters - weekly scans
+  - name: development
+    clusterSelector:
+      matchLabels:
+        env: development
+        tier: dev
+    values:
+      scan:
+        enabled: true
+        frequency: "weekly"
+        schedule:
+          weekly: "0 2 * * 0"   # Weekly on Sunday at 2 AM UTC
+
+  # Staging clusters - daily scans
+  - name: staging
+    clusterSelector:
+      matchLabels:
+        env: staging
+        tier: staging
+    values:
+      scan:
+        enabled: true
+        frequency: "daily"
+        schedule:
+          daily: "0 3 * * *"    # Daily at 3 AM UTC (different time)
+

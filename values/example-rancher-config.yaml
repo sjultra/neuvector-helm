@@ -1,0 +1,17 @@
+# Example configuration file for Rancher-specific settings
+# Copy this file and customize with your Rancher URL, then reference in fleet.yaml
+# or use with: helm install -f values/example-rancher-config.yaml
+
+global:
+  rancher:
+    # Set your Rancher server URL here
+    url: "https://rancher.example.com"  # Replace with your Rancher URL
+
+neuvector-core:
+  global:
+    cattle:
+      url: "https://rancher.example.com"  # Replace with your Rancher URL
+  controller:
+    ranchersso:
+      enabled: true
+

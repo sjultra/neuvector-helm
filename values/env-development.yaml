@@ -1,0 +1,19 @@
+# Development environment values
+# This file extends base.yaml with development-specific settings
+
+global:
+  rancher:
+    # Set your development Rancher URL here
+    url: ""  # e.g., "https://rancher-dev.example.com"
+
+neuvector-core:
+  global:
+    cattle:
+      url: ""  # Should match global.rancher.url above
+  controller:
+    ranchersso:
+      enabled: false  # Set to true if URL is provided
+
+scan:
+  frequency: "weekly"  # Less frequent scans for dev
+
