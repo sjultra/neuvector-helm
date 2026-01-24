@@ -34,9 +34,8 @@ helm:
     enforcer:
       enabled: true
     
-    # Disable registry adapter
-    registry:
-      enabled: false
+    # Registry configuration (leave empty string for default)
+    registry: ""
     
     # Disable updater (can enable if you want CVE updates)
     updater:
