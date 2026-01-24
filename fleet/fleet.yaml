@@ -24,11 +24,27 @@ helm:
       replicas: 1  # Minimum for scanner coordination
       ranchersso:
         enabled: false
+      # Resource limits for controllers
+      resources:
+        requests:
+          cpu: 100m
+          memory: 256Mi
+        limits:
+          cpu: 500m
+          memory: 1Gi
     
     # Enable scanners with 1 replica per cluster (not per node)
     scanner:
       enabled: true
       replicas: 1  # 1 scanner per cluster, not per node
+      # Resource limits to prevent overburdening clusters
+      resources:
+        requests:
+          cpu: 100m
+          memory: 512Mi
+        limits:
+          cpu: 1000m
+          memory: 2Gi
     
     # Enable enforcers for full functionality
     enforcer:
