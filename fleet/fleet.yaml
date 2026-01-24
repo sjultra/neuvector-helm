@@ -34,6 +34,7 @@ helm:
           memory: 1Gi
     
     # Enable scanners with 1 replica per cluster (not per node)
+    # Use both scanner (root) and cve.scanner to ensure it works
     scanner:
       enabled: true
       replicas: 1  # 1 scanner per cluster, not per node
@@ -45,13 +46,25 @@ helm:
         limits:
           cpu: 1000m
           memory: 2Gi
+    cve:
+      scanner:
+        enabled: true
+        replicas: 1  # 1 scanner per cluster, not per node
+        # Resource limits to prevent overburdening clusters
+        resources:
+          requests:
+            cpu: 100m
+            memory: 512Mi
+          limits:
+            cpu: 1000m
+            memory: 2Gi
     
     # Enable enforcers for full functionality
     enforcer:
       enabled: true
     
-    # Registry configuration (leave empty string for default)
-    registry: ""
+    # Registry configuration - use docker.io (default) instead of empty string
+    registry: docker.io
     
     # Disable updater to prevent automatic CVE updates and scanning
     # CVE updates can be triggered manually when needed
