@@ -37,9 +37,12 @@ helm:
     # Registry configuration (leave empty string for default)
     registry: ""
     
-    # Disable updater (can enable if you want CVE updates)
+    # Disable updater to prevent automatic CVE updates and scanning
+    # CVE updates can be triggered manually when needed
     updater:
       enabled: false
+      # If enabled, set schedule to empty to disable automatic updates
+      # schedule: ""  # Empty schedule = no automatic updates
     
     # Runtime path for k3s
     runtimePath: /run/k3s/containerd/containerd.sock
