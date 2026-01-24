@@ -25,10 +25,10 @@ helm:
       ranchersso:
         enabled: false
     
-    # Enable scanners with minimal replicas
+    # Enable scanners with 1 replica per cluster (not per node)
     scanner:
       enabled: true
-      replicas: 1  # Minimal replicas for cost efficiency
+      replicas: 1  # 1 scanner per cluster, not per node
     
     # Enable enforcers for full functionality
     enforcer:
