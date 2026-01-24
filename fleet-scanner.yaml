@@ -1,0 +1,52 @@
+# Fleet configuration for NeuVector Scanner deployment across all clusters
+# This deploys only the scanner component (with minimal controllers for coordination)
+# to all onboarded clusters
+
+defaultNamespace: cattle-neuvector-system
+
+helm:
+  releaseName: neuvector-scanner
+  chart: https://neuvector.github.io/neuvector-helm/core-2.8.3.tgz
+  # Scanner configuration with federation support
+  values:
+    # Federation member - connect to master cluster
+    # Master cluster endpoint: https://31.220.85.63:30443
+    federation:
+      master: "https://31.220.85.63:30443"
+    
+    # Disable manager (web UI) - not needed on member clusters
+    manager:
+      enabled: false
+    
+    # Keep controllers enabled (scanners need them for coordination)
+    # But reduce replicas to minimum
+    controller:
+      replicas: 1  # Minimum for scanner coordination
+      ranchersso:
+        enabled: false
+    
+    # Enable scanners with minimal replicas
+    scanner:
+      enabled: true
+      replicas: 1  # Minimal replicas for cost efficiency
+    
+    # Enable enforcers for full functionality
+    enforcer:
+      enabled: true
+    
+    # Disable registry adapter
+    registry:
+      enabled: false
+    
+    # Disable updater (can enable if you want CVE updates)
+    updater:
+      enabled: false
+    
+    # Runtime path for k3s
+    runtimePath: /run/k3s/containerd/containerd.sock
+
+# Deploy scanners to ALL clusters
+targets:
+  # Target all clusters - no selector means all clusters
+  - name: all-clusters
+    clusterSelector: {}  # Empty selector = all clusters

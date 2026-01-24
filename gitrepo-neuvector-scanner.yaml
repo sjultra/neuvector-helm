@@ -1,0 +1,23 @@
+apiVersion: fleet.cattle.io/v1alpha1
+kind: GitRepo
+metadata:
+  name: neuvector-scanner
+  namespace: fleet-default
+  annotations:
+    field.cattle.io/description: "NeuVector Scanner deployment across all clusters with federation support"
+spec:
+  # Git repository URL
+  repo: https://github.com/sjultra/neuvector-helm.git
+  branch: main  # Update if your default branch is different
+  paths:
+    - fleet-scanner.yaml
+  # Polling interval for Git updates
+  pollingInterval: 1m0s
+  # Enable drift correction
+  correctDrift:
+    enabled: true
+  # Target all clusters in fleet-default
+  targets:
+    - clusterSelector: {}
+      clusterGroupSelector: {}
+
