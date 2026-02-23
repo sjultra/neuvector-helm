@@ -1,0 +1,34 @@
+# Minimal NeuVector config for local cluster: low scan frequency, minimal replicas
+
+global:
+  namespace: cattle-neuvector-system
+  runtime:
+    path: /run/k3s/containerd/containerd.sock
+
+neuvector-core:
+  runtimePath: ""
+  global:
+    cattle:
+      url: "https://localhost"  # required by chart schema; leave for local-only (no Rancher SSO)
+  # Minimal replicas to reduce load
+  controller:
+    replicas: 1
+  # One scanner; scans run weekly
+  cve:
+    scanner:
+      replicas: 1
+    # CVE DB updates weekly at 3 AM Sunday (less load than daily)
+    updater:
+      enabled: true
+      schedule: "0 3 * * 0"
+
+scan:
+  enabled: true
+  frequency: "weekly"
+  schedule:
+    weekly: "0 3 * * 0"   # Sunday 3 AM
+
+registryScan:
+  enabled: true
+  scanLayers: true
+  scanSecrets: true

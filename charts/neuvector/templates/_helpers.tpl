@@ -37,7 +37,7 @@ helm.sh/chart: {{ include "neuvector.chart" . }}
 {{- if .Chart.AppVersion }}
 app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
 {{- end }}
-app.kubernetes.io/managed-by: {{ .Release.Service }}
+{{ printf "app.kubernetes.io/managed-by: %s" (.Release.Service | quote) }}
 {{- end }}
 
 {{/*

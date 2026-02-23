@@ -1,0 +1,32 @@
+# NeuVector member (controller + enforcers) for downstream clusters.
+# Use with: helm install neuvector-member neuvector/core -n cattle-neuvector-system --create-namespace -f values/neuvector-member.yaml
+# Clusters: c-68tw8, c-2kqph. After install, do one-time Join in UI with token from primary.
+
+bootstrapPassword: "admin"
+
+controller:
+  replicas: 1
+  ranchersso:
+    enabled: false
+  federation:
+    managedsvc:
+      type: NodePort
+      nodePort: 30444
+
+manager:
+  enabled: true
+
+enforcer:
+  enabled: true
+
+cve:
+  scanner:
+    enabled: false
+  updater:
+    enabled: false
+
+runtimePath: /run/k3s/containerd/containerd.sock
+
+global:
+  cattle:
+    url: "https://localhost"

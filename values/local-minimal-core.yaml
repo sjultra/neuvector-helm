@@ -1,0 +1,29 @@
+# Minimal values for NeuVector core chart (use with core chart tgz directly)
+# Low load: 1 controller, 1 scanner, weekly CVE update and scan
+
+# Use a known admin password (change after first login). Leave empty for default admin/admin.
+bootstrapPassword: "admin"
+
+# Disable Rancher SSO so local admin login works
+controller:
+  replicas: 1
+  ranchersso:
+    enabled: false
+  # Expose fed-master so remote clusters can connect (port 11443 → NodePort 30443)
+  federation:
+    mastersvc:
+      type: NodePort
+      nodePort: 30443
+
+cve:
+  scanner:
+    replicas: 1
+  updater:
+    enabled: true
+    schedule: "0 3 * * 0"   # Sunday 3 AM
+
+runtimePath: /run/k3s/containerd/containerd.sock
+
+global:
+  cattle:
+    url: "https://localhost"
