@@ -18,6 +18,14 @@ neuvector:
 # NeuVector core chart values (dependency)
 neuvector-core:
   runtimePath: ""  # Uses global.runtime.path if empty
+  
+  # Federation configuration for multi-cluster setup
+  # For MEMBER clusters (sub-clusters): Set this to the master cluster endpoint
+  # Format: "https://<master-ip-or-hostname>:<port>"
+  # Example: "https://31.220.85.63:30443"
+  # For MASTER cluster: Leave empty or omit this setting
+  federation:
+    master: ""  # Set to master endpoint for member clusters, empty for master cluster
 
 # Scan configuration
 scan:

@@ -4,11 +4,11 @@
 # Use a known admin password (change after first login). Leave empty for default admin/admin.
 bootstrapPassword: "admin"
 
-# Disable Rancher SSO so local admin login works
+# Enable Rancher SSO so you can open NeuVector from Rancher ("Launch NeuVector")
 controller:
   replicas: 1
   ranchersso:
-    enabled: false
+    enabled: true
   # Expose fed-master so remote clusters can connect (port 11443 → NodePort 30443)
   federation:
     mastersvc:
@@ -26,4 +26,5 @@ runtimePath: /run/k3s/containerd/containerd.sock
 
 global:
   cattle:
-    url: "https://localhost"
+    # Rancher server URL – required for "Launch NeuVector" from Rancher (SSO)
+    url: "https://rancher.prdc.vzxy.net"

@@ -1,0 +1,37 @@
+# NOT USED – we deploy members via Helm (no Fleet). See ONBOARDING.md and scripts/deploy-member-helm.sh.
+# Kept for reference only.
+
+defaultNamespace: cattle-neuvector-system
+
+helm:
+  releaseName: neuvector-member
+  chart: https://neuvector.github.io/neuvector-helm/core-2.8.3.tgz
+  values:
+    bootstrapPassword: "admin"
+    controller:
+      replicas: 1
+      ranchersso:
+        enabled: false
+      # Expose fed-worker (fed-managed) so primary can reach this cluster
+      federation:
+        managedsvc:
+          type: NodePort
+          nodePort: 30444
+    manager:
+      enabled: true   # needed for one-time Join in UI
+    enforcer:
+      enabled: true
+    cve:
+      scanner:
+        enabled: false
+      updater:
+        enabled: false
+    runtimePath: /run/k3s/containerd/containerd.sock
+    global:
+      cattle:
+        url: "https://localhost"
+
+# Deploy only to clusters that receive this bundle. In Rancher GitRepo, target ONLY c-68tw8 and c-2kqph.
+targets:
+  - name: downstream
+    clusterSelector: {}

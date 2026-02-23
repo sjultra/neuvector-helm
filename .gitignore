@@ -2,6 +2,7 @@
 charts/*/charts/
 charts/*/requirements.lock
 *.tgz
+kubeconfig*.yml
 
 # Sensitive values files (uncomment if you store secrets in values files)
 # values/secrets.yaml
